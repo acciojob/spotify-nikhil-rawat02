@@ -88,7 +88,7 @@ public class SpotifyRepository {
             }
         }
 
-        if(album == null)throw new Exception("User does not exist");
+        if(album == null)throw new Exception("Album does not exist");
 
         Song song = new Song(title,length);
             song.setLikes(0);
