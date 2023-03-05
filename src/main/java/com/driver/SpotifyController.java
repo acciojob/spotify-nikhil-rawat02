@@ -71,7 +71,7 @@ public class SpotifyController {
 //        try {
             spotifyService.findPlaylist(mobile,playlistTitle);
 //        }catch (NullPointerException nullPointerException){
-//            return "";
+//            return "User does not exist";
 //        }catch ( RuntimeException runtimeException){
 //            return "Playlist does not exist";
 //        }

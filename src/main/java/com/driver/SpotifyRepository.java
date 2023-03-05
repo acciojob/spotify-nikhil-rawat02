@@ -40,15 +40,15 @@ public class SpotifyRepository {
     public User createUser(String name, String mobile) {
         User user =  new User(name,mobile);
         users.add(user);
-//        userPlaylistMap.put(user,new ArrayList<Playlist>());
-        System.out.println(user.getName());
-        System.out.println(user.getMobile());
+        userPlaylistMap.put(user,new ArrayList<Playlist>());
+
         return user;
     }
 
     public Artist createArtist(String name) {
         Artist artist = new Artist(name);
         artists.add(artist);
+        artistAlbumMap.put(artist,new ArrayList<>());
         return artist;
     }
 
@@ -60,12 +60,13 @@ public class SpotifyRepository {
             }
         }
 
-        Album album = new Album(title);
-
         // if artist not exist create new Artist
         if(artist == null){
             artist = createArtist(artistName);
         }
+
+        Album album = new Album(title);
+        albums.add(album);
 
         List<Album> albumList = new ArrayList<>();
         if(artistAlbumMap.containsKey(artist)){
@@ -73,9 +74,8 @@ public class SpotifyRepository {
         }
         albumList.add(album);
         artistAlbumMap.put(artist,albumList);
+        albumSongMap.put(album,new ArrayList<>());
 
-
-        albums.add(album);
 
         return album;
     }
@@ -114,8 +114,6 @@ public class SpotifyRepository {
         else {
             // create playlist
             Playlist playlist = createPlayList(title);
-
-
             // update playlistSongMap list of all songs having length
             List<Song> songList = new ArrayList<>();
             for(Song song : songs){
@@ -125,7 +123,6 @@ public class SpotifyRepository {
 
             // update listener list
             updateListener(user,playlist);
-
 
             // update creatorPlaylistMap
             creatorPlaylistMap.put(user,playlist);
@@ -202,6 +199,8 @@ public class SpotifyRepository {
         // update listener map
         listenerList.add(user);
         playlistListenerMap.put(playlist,listenerList);
+        userPlaylistMap.get(user).add(playlist);
+
         return playlist;
     }
 
