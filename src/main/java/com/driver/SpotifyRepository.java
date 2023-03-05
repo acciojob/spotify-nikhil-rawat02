@@ -89,8 +89,8 @@ public class SpotifyRepository {
         }
 
         if(album == null)throw new Exception("User does not exist");
-        else{
-            Song song = new Song(title,length);
+
+        Song song = new Song(title,length);
             song.setLikes(0);
             songs.add(song);
 
@@ -101,7 +101,7 @@ public class SpotifyRepository {
             albumSongMap.put(album,songList);
 
             return song;
-        }
+
     }
 
     public Playlist createPlaylistOnLength(String mobile, String title, int length) throws Exception {
@@ -192,11 +192,13 @@ public class SpotifyRepository {
         }
 
         // if user is already present in listener list do nothing and return playlist
-        List<User> listenerList = playlistListenerMap.get(playlist);
-        for(User user1 : listenerList){
-            if(user1.getMobile().equals(mobile)) return playlist;
+        List<User> listenerList = new ArrayList<>();
+        if(playlistListenerMap.containsKey(playlist)){
+            listenerList = playlistListenerMap.get(playlist);
+            for(User user1 : listenerList){
+                if(user1.getMobile().equals(mobile)) return playlist;
+            }
         }
-
         // update listener map
         listenerList.add(user);
         playlistListenerMap.put(playlist,listenerList);
