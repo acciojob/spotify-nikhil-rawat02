@@ -37,8 +37,12 @@ public class SpotifyController {
     public String createSong(@RequestParam(name = "title") String title, @RequestParam String albumName, @RequestParam int length) throws Exception{
         //If the album does not exist in database, throw "Album does not exist" exception
         //Create and add the song to respective album
-
+        try {
             spotifyService.createSong(title,albumName,length);
+        }catch (Exception e){
+            return "Album does not exist";
+        }
+
         return "Success";
     }
 
@@ -48,7 +52,12 @@ public class SpotifyController {
         //The creater of the playlist will be the given user and will also be the only listener at the time of playlist creation
         //If the user does not exist, throw "User does not exist" exception
 
-        spotifyService.createPlaylistOnLength(mobile,title,length);
+        try {
+            spotifyService.createPlaylistOnLength(mobile,title,length);
+        }catch (UserNotFoundException e){
+            return e.getLocalizedMessage();
+        }
+
         return "Success";
     }
 
@@ -57,7 +66,11 @@ public class SpotifyController {
         //Create a playlist with given title and add all songs having the given titles in the database to that playlist
         //The creater of the playlist will be the given user and will also be the only listener at the time of playlist creation
         //If the user does not exist, throw "User does not exist" exception
-            spotifyService.createPlaylistOnName(mobile,title,songTitles);
+            try {
+                spotifyService.createPlaylistOnName(mobile, title, songTitles);
+            }catch (UserNotFoundException e) {
+                return e.getLocalizedMessage();
+            }
         return "Success";
     }
 
@@ -68,13 +81,11 @@ public class SpotifyController {
         //If the user does not exist, throw "User does not exist" exception
         //If the playlist does not exists, throw "Playlist does not exist" exception
         // Return the playlist after updating
-//        try {
+        try {
             spotifyService.findPlaylist(mobile,playlistTitle);
-//        }catch (NullPointerException nullPointerException){
-//            return "User does not exist";
-//        }catch ( RuntimeException runtimeException){
-//            return "Playlist does not exist";
-//        }
+        }catch (UserNotFoundException | PlayListNotFoundException e){
+            return e.getLocalizedMessage();
+        }
         return "Success";
     }
 
@@ -86,13 +97,11 @@ public class SpotifyController {
         //If the user does not exist, throw "User does not exist" exception
         //If the song does not exist, throw "Song does not exist" exception
         //Return the song after updating
-//        try {
+        try {
             spotifyService.likeSong(mobile,songTitle);
-//        }catch (NullPointerException nullPointerException){
-//            return "User does not exist";
-//        }catch (RuntimeException runtimeException){
-//            return "Song does not exist";
-//        }
+        }catch (UserNotFoundException | SongNotFoundException exception){
+            return exception.getLocalizedMessage();
+        }
         return "Success";
     }
 

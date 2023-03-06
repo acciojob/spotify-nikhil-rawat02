@@ -110,7 +110,7 @@ public class SpotifyRepository {
             if(usr.getMobile().equals(mobile))user = usr;
         }
 
-        if(user == null)throw new Exception("User does not exist");
+        if(user == null)throw new UserNotFoundException("User does not exist");
         else {
             // create playlist
             Playlist playlist = createPlayList(title);
@@ -141,7 +141,7 @@ public class SpotifyRepository {
             if(usr.getMobile().equals(mobile))user = usr;
         }
 
-        if(user == null)throw new Exception("User does not exist");
+        if(user == null)throw new UserNotFoundException("User does not exist");
         else {
             // create playlist
             Playlist playlist = createPlayList(title);
@@ -174,14 +174,14 @@ public class SpotifyRepository {
             if(currUser.getMobile().equals(mobile))user = currUser;
         }
         // user does not exist
-        if(user == null)throw new Exception("User does not exist");
+        if(user == null)throw new UserNotFoundException("User does not exist");
 
         Playlist playlist = null;
         for(Playlist currPlaylist: playlists){
             if(currPlaylist.getTitle().equals(playlistTitle))playlist = currPlaylist;
         }
         // playlist does not exist
-        if(playlist == null)throw new Exception("Playlist does not exist");
+        if(playlist == null)throw new PlayListNotFoundException("Playlist does not exist");
 
         // if user is creator of playlist do nothing and return playlist
         if(creatorPlaylistMap.containsKey(user)){
@@ -210,14 +210,14 @@ public class SpotifyRepository {
             if(currUser.getMobile().equals(mobile))user = currUser;
         }
         // user does not exist
-        if(user == null)throw new Exception("User does not exist");
+        if(user == null)throw new UserNotFoundException("User does not exist");
 
         Song song = null;
         for(Song currSong: songs){
             if(currSong.getTitle().equals(songTitle))song = currSong;
         }
         // playlist does not exist
-        if(song == null)throw new Exception("Song does not exist");
+        if(song == null)throw new SongNotFoundException("Song does not exist");
 
         // if user has already liked song
         List<User> songLikeUser = new ArrayList<>();
